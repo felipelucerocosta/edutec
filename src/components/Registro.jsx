@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./registro.css";
+import "../styles/registro.css";
 import "boxicons/css/boxicons.min.css";
 
 export default function Registro() {

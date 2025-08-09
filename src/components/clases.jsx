@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./clases.css"; // Tu CSS global
+import "../styles/clases.css"; // Tu CSS global
 
 export default function Clases() {
   const [mostrarCrear, setMostrarCrear] = useState(false);
