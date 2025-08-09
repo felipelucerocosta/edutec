@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./registro.css";
 import "boxicons/css/boxicons.min.css";
 
 export default function Registro() {
+  const [logoError, setLogoError] = useState(false);
+
   useEffect(() => {
     const btnIniciarSesion = document.getElementById("btn__iniciar-sesion");
     const btnRegistrarAlumno = document.getElementById("btn__registrarse-alumno");
@@ -100,11 +102,37 @@ export default function Registro() {
     <div>
       <header>
         <div className="logo">
-          <img src="/img/logo1.jpg" alt="Logo de la compañía" />
-          <a href="index.html" className="nombre-logo">EDUTECHUB</a>
+          {!logoError ? (
+            <img
+              src="/img/logo1.jpg"
+              alt="Logo"
+              onError={() => setLogoError(true)}
+              style={{ maxWidth: "150px", height: "auto" }}
+            />
+          ) : (
+            <div
+              style={{
+                width: "150px",
+                height: "80px",
+                backgroundColor: "#ddd",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                color: "#999",
+                fontWeight: "bold",
+                fontSize: "14px",
+              }}
+            >
+              Logo no disponible
+            </div>
+          )}
+          <a href="index.html" className="nombre-logo">
+            EDUTECHUB
+          </a>
         </div>
       </header>
 
+      {/* resto del componente sin cambios */}
       <main>
         <div className="contenedor__todo">
           <div className="caja__trasera">
@@ -130,23 +158,61 @@ export default function Registro() {
               <button type="submit">Entrar</button>
             </form>
 
-            <form action="http://localhost:3000/registro-alumno" method="POST" className="formulario__register formulario__register-alumno">
+            <form
+              action="http://localhost:3000/registro-alumno"
+              method="POST"
+              className="formulario__register formulario__register-alumno"
+            >
               <h2>Registro Alumno</h2>
-              <input type="text" name="nombre_completo" placeholder="Nombre completo" required />
-              <input type="email" name="correo" placeholder="Correo electrónico" required />
+              <input
+                type="text"
+                name="nombre_completo"
+                placeholder="Nombre completo"
+                required
+              />
+              <input
+                type="email"
+                name="correo"
+                placeholder="Correo electrónico"
+                required
+              />
               <input type="text" name="curso" placeholder="Curso" required />
               <input type="text" name="dni" placeholder="DNI" required />
-              <input type="password" name="contrasena" placeholder="Contraseña" required />
+              <input
+                type="password"
+                name="contrasena"
+                placeholder="Contraseña"
+                required
+              />
               <button type="submit">Registrarse</button>
             </form>
 
-            <form action="http://localhost:3000/registro-profesor" method="POST" className="formulario__register formulario__register-profesor">
+            <form
+              action="http://localhost:3000/registro-profesor"
+              method="POST"
+              className="formulario__register formulario__register-profesor"
+            >
               <h2>Registro Profesor</h2>
-              <input type="text" name="nombre_completo" placeholder="Nombre completo" required />
-              <input type="email" name="correo" placeholder="Correo electrónico" required />
+              <input
+                type="text"
+                name="nombre_completo"
+                placeholder="Nombre completo"
+                required
+              />
+              <input
+                type="email"
+                name="correo"
+                placeholder="Correo electrónico"
+                required
+              />
               <input type="text" name="materia" placeholder="Materia" required />
               <input type="text" name="dni" placeholder="DNI" required />
-              <input type="password" name="contrasena" placeholder="Contraseña" required />
+              <input
+                type="password"
+                name="contrasena"
+                placeholder="Contraseña"
+                required
+              />
               <button type="submit">Registrarse</button>
             </form>
           </div>
@@ -166,7 +232,8 @@ export default function Registro() {
               <i className="bx bxs-lock-alt"></i>
             </div>
             <button className="btn">Entrar</button>
-            <p>todavía no tienes cuenta</p><a href="#">registrarse</a>
+            <p>todavía no tienes cuenta</p>
+            <a href="#">registrarse</a>
           </form>
         </div>
       </div>
