@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./tablon.css";
+import "../styles/tablon.css";
 import "boxicons/css/boxicons.min.css";
 
 export default function Tablon() {
