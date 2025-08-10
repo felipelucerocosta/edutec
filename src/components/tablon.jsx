@@ -11,32 +11,32 @@ export default function Tablon() {
     setMenuAbierto(!menuAbierto);
   };
 
+  // Cargar mensajes desde localStorage
   const cargarMensajes = () => {
-    // Aquí en producción deberías hacer un fetch real a tu backend
-    fetch("/api/obtener_mensajes") 
-      .then((res) => res.json())
-      .then((data) => setMensajes(data))
-      .catch(() => setMensajes([]));
+    const mensajesGuardados = localStorage.getItem("mensajes");
+    if (mensajesGuardados) {
+      setMensajes(JSON.parse(mensajesGuardados));
+    } else {
+      setMensajes([]);
+    }
+  };
+
+  // Guardar mensajes en localStorage
+  const guardarMensajes = (nuevosMensajes) => {
+    localStorage.setItem("mensajes", JSON.stringify(nuevosMensajes));
   };
 
   const enviarMensaje = () => {
     if (mensaje.trim() === "") return;
-    fetch("/api/guardar_mensajes", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ mensaje }),
-    })
-      .then(() => {
-        setMensaje("");
-        cargarMensajes();
-      })
-      .catch(console.error);
+
+    const nuevosMensajes = [...mensajes, mensaje.trim()];
+    setMensajes(nuevosMensajes);
+    guardarMensajes(nuevosMensajes);
+    setMensaje("");
   };
 
   useEffect(() => {
     cargarMensajes();
-    const intervalo = setInterval(cargarMensajes, 5000);
-    return () => clearInterval(intervalo);
   }, []);
 
   return (
