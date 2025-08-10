@@ -12,63 +12,67 @@ body {
   background-color: #ffffff;
   color: var(--texto);
 }
+
 header {
-    height: 65px;
-    background-color: #234a6dab;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.74);
+  height: 65px;
+  background-color: rgb(79, 106, 128);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.74);
+  padding: 0 20px;
 }
 
 header h1 {
   font-size: 35px;
-  color:rgb(2, 7, 75)
+  color: rgb(2, 7, 75);
+  margin: 0;
 }
 
+/* Logo container */
 .logo {
-   display: flex;
-   padding: 40px;
-}
-    
-
-
-.nav-bar ul {
-    display: flex;
-    list-style: none;
-    
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.nav-bar ul li a {
-    display: block;
-    color: #ffffff;
-    font-size: 19px;
-    padding: 10px 25px;
-    border-radius: 15px;
-    transition: 0.2s;
-    margin: 0 5px;
-    text-decoration: none;
-    text-shadow: 1px 1px 1px #232323;
-
+.logo img {
+  height: 45px;
+  border-radius: 6px;
 }
 
-.nav-bar ul li a:hover {
-    color :rgb(71, 89, 126) ;
-    background-color: #ffffff;
+.nombre-logo {
+  color: #f2f2f2;
+  font-weight: bold;
+  font-size: 1.4rem;
+  text-decoration: none;
+  text-shadow: none;
 }
 
-.nav-bar ul li a.active {
-    color :rgb(255, 255, 255) ;
-    background-color: #f2f2f2;
+/* Navigation inside header */
+header nav {
+  display: flex;
+  gap: 15px;
 }
 
+header nav a {
+  color: #ffffff;
+  font-size: 19px;
+  padding: 10px 15px;
+  border-radius: 15px;
+  text-decoration: none;
+  transition: background-color 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
 
+header nav a:hover {
+  color: rgb(71, 89, 126);
+  background-color: #ffffff;
+}
 
-
-
-
-
-
+/* Main container */
 .contenedor {
   max-width: 1100px;
   margin: 30px auto;
@@ -78,6 +82,7 @@ header h1 {
   box-shadow: 0 4px 15px var(--sombra);
 }
 
+/* Header section inside main */
 .encabezado {
   display: flex;
   justify-content: space-between;
@@ -88,6 +93,7 @@ header h1 {
 .encabezado h2 {
   font-size: 1.8rem;
   color: var(--primario);
+  margin: 0;
 }
 
 .encabezado button {
@@ -105,6 +111,7 @@ header h1 {
   background-color: #3a5365;
 }
 
+/* Formulario para nota */
 .formulario-nota {
   display: flex;
   flex-wrap: wrap;
@@ -136,7 +143,8 @@ header h1 {
   background-color: #218838;
 }
 
-table {
+/* Tabla del calendario */
+table#calendario {
   width: 100%;
   border-collapse: collapse;
   background-color: #fff;
@@ -154,40 +162,16 @@ th {
 }
 
 td {
-  border: 1px solid var(--borde);
-  height: 100px;
-  vertical-align: top;
-  padding: 10px;
-  font-size: 0.95rem;
-  position: relative;
-}
-
-td::before {
-  content: attr(data-dia);
-  position: absolute;
-  top: 5px;
-  left: 10px;
-  font-size: 0.8rem;
-  color: #888;
-}
-
-footer {
-  color: #777;
-  font-size: 13px;
-  text-align: center;
-  padding: 40px 10px 20px;
-}
-td {
   position: relative;
   border: 1px solid var(--borde);
   height: 100px;
   vertical-align: top;
-  padding: 5px;
+  padding: 8px;
   background-color: #fff;
   font-size: 0.95rem;
 }
 
-/* Número de día */
+/* Número de día dentro de la celda */
 .dia-num {
   position: absolute;
   top: 5px;
@@ -196,59 +180,91 @@ td {
   font-weight: bold;
   color: #555;
 }
-#abrir-nav,#cerrar-nav {
-  display: none;
+
+/* Lista de notas dentro de cada celda */
+td ul {
+  margin: 25px 0 0 0;
+  padding-left: 15px;
+  list-style-type: disc;
+  max-height: 60px;
+  overflow-y: auto;
 }
 
-@media (max-width:822px) {
-    .logo {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-    }
-    header {
-      width: 100%;
-      justify-content: space-between;
-    }
-    #abrir-nav,#cerrar-nav {
-    display: block;
+td ul li {
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+  color: var(--primario);
+}
 
-    }
-    #abrir-nav {
-      border: none;
-      background-color: transparent;
-      font-size: 25px;
-      padding-right:20PX ;
-      color: #f2f2f2;
-      cursor: pointer;
-    }
-    #cerrar-nav {
-      border: none;
-      background-color: transparent;
-      color: #f2f2f2;
-      font-size: 20px;
-      cursor: pointer;
-    }
-    
-    .nav-bar {
-      display: none;
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #1C1C1C;
-      padding: 1.5rem;
-      box-shadow: 0 0 0 100vmax rgb(0, 0, 0,.5);
-    }
-    .nav-bar.active{
-      display: flex;
-      z-index: 100;
-    }
-    .nav-list {
-      flex-direction: column;
-      background-color: #1C1C1C;
-      text-align: end;
+/* Footer */
+footer {
+  color: #777;
+  font-size: 13px;
+  text-align: center;
+  padding: 40px 10px 20px;
+}
 
-    }
-
+/* Responsive: móvil */
+@media (max-width: 822px) {
+  .logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
+
+  header {
+    width: 100%;
+    justify-content: space-between;
+    padding: 0 15px;
+  }
+
+  /* Si quieres usar un botón para abrir/cerrar menú móvil, deberías agregarlo en React */
+  #abrir-nav,
+  #cerrar-nav {
+    display: block;
+    border: none;
+    background-color: transparent;
+    color: #f2f2f2;
+    font-size: 25px;
+    cursor: pointer;
+    padding-right: 20px;
+  }
+
+  /* Navegación móvil (requiere clase nav-bar y nav-list) */
+  .nav-bar {
+    display: none;
+    position: absolute;
+    top: 65px;
+    right: 0;
+    bottom: 0;
+    background-color: #1C1C1C;
+    padding: 1.5rem;
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.5);
+    flex-direction: column;
+    z-index: 100;
+  }
+
+  .nav-bar.active {
+    display: flex;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    background-color: #1C1C1C;
+    text-align: end;
+  }
+
+  header nav a {
+    padding: 12px 0;
+    font-size: 1.2rem;
+  }
+
+  table#calendario {
+    font-size: 0.85rem;
+  }
+
+  td {
+    height: 80px;
+    padding: 5px;
+  }
+}
