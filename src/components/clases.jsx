@@ -59,6 +59,11 @@ export default function Clases() {
     setMostrarUnirse(false);
   };
 
+  // Función para redirigir a tablon.html
+  const irATablon = () => {
+    window.location.href = "tablon.html";
+  };
+
   return (
     <>
       <header>
@@ -66,6 +71,23 @@ export default function Clases() {
           <img src="/img/logo1.jpg" alt="Logo de la compañía" />
           <h1 className="nombre-logo">EDUTECHUB</h1>
         </div>
+        {/* Botón para ir a tablon.html */}
+        <button 
+          type="button" 
+          onClick={irATablon} 
+          style={{
+            marginLeft: "auto",
+            padding: "8px 16px",
+            fontSize: "1rem",
+            cursor: "pointer",
+            borderRadius: "5px",
+            border: "1px solid #333",
+            backgroundColor: "#f0f0f0",
+            alignSelf: "center",
+          }}
+        >
+          Ir a Tablón
+        </button>
       </header>
 
       <main>
