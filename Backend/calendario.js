@@ -61,26 +61,4 @@ function generarCalendario(fechaBase) {
   }
 }
 
-function cambiarMes(valor) {
-  fecha.setMonth(fecha.getMonth() + valor);
-  generarCalendario(fecha);
-}
-
-function agregarNota() {
-  const nota = document.getElementById('nota').value;
-  const dia = parseInt(document.getElementById('dia').value);
-  const columna = parseInt(document.getElementById('columna').value);
-
-  const clave = `${dia}-${columna}`;
-  if (celdas[clave]) {
-    const celdaNota = celdas[clave].querySelector('.contenido-nota');
-    celdaNota.innerHTML += `<div>📝 ${nota}</div>`;
-  } else {
-    alert("Día fuera de rango o inválido.");
-  }
-
-  document.getElementById('nota').value = '';
-  document.getElementById('dia').value = '';
-}
-
 generarCalendario(fecha);
