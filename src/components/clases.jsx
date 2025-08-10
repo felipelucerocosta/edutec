@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../styles/clases.css"; // Tu CSS global
 
-export default function ClasesAlum() {
+export default function Clases() {
  
   const [mostrarCrear, setMostrarCrear] = useState(false);
   const [mostrarUnirse, setMostrarUnirse] = useState(false);

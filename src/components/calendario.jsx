@@ -73,7 +73,7 @@ export default function Calendario() {
         </div>
 
         <nav>
-          <a href="/registro.html"><i className="bx bxs-user"></i> Registrarse</a>
+          <a href="/clases.html"><i className="bx bxs-user"></i> Registrarse</a>
           <a href="/tablon.html"><i className="bx bx-table"></i> Tablón</a>
           <a href="/notas.html"><i className="bx bxs-spreadsheet"></i> Notas</a>
         </nav>
