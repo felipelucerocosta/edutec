@@ -49,13 +49,13 @@ export default function Tablon() {
 
         {/* Menú normal */}
         <nav>
-          <a href="/registro">
+          <a href="/index.html">
             Registrarse <i className="bx bxs-user"></i>
           </a>
-          <a href="/calendario">
+          <a href="/calendario.html">
             Calendario <i className="bx bx-calendar"></i>
           </a>
-          <a href="/notas">
+          <a href="/notas.html">
             Notas <i className="bx bxs-spreadsheet"></i>
           </a>
         </nav>
