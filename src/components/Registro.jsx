@@ -4,8 +4,8 @@ import "boxicons/css/boxicons.min.css";
 
 export default function Registro() {
   const [logoError, setLogoError] = useState(false);
-  const [usuariosAlumno, setUsuariosAlumno] = useState([]); 
-  const [usuariosProfesor, setUsuariosProfesor] = useState([]); 
+  const [usuariosAlumno, setUsuariosAlumno] = useState([]);
+  const [usuariosProfesor, setUsuariosProfesor] = useState([]);
   const [usuarioLogueado, setUsuarioLogueado] = useState(null);
 
   const [mensajeLogin, setMensajeLogin] = useState(null);
@@ -129,12 +129,14 @@ export default function Registro() {
     }
 
     if (usuario) {
-      setUsuarioLogueado({ ...usuario, tipo: tipoUsuario });
+      const datosUsuario = { ...usuario, tipo: tipoUsuario };
+      setUsuarioLogueado(datosUsuario);
+      localStorage.setItem("usuarioLogueado", JSON.stringify(datosUsuario));
       setMensajeLogin(`Bienvenido/a, ${usuario.nombre_completo} (${tipoUsuario})`);
       e.target.reset();
 
-      // Redirigir a tablon.html
-      window.location.href = "tablon.html";
+      // Redirigir a clases.html
+      window.location.href = "clases.html";
     } else {
       setMensajeLogin("Usuario o contraseña incorrectos.");
     }

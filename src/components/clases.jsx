@@ -1,64 +1,62 @@
-import React, { useState } from "react";
-import "../styles/clases.css"; // Tu CSS global
+import React, { useState, useEffect } from "react";
+import "../styles/clases.css";
 
 export default function Clases() {
   const [mostrarCrear, setMostrarCrear] = useState(false);
   const [mostrarUnirse, setMostrarUnirse] = useState(false);
-  const [clases, setClases] = useState([]); // Aquí guardamos las clases creadas localmente
-  const [mensajeUnirse, setMensajeUnirse] = useState(null);
+  const [clases, setClases] = useState([]);
+
+  useEffect(() => {
+    const clasesGuardadas = JSON.parse(localStorage.getItem("clases")) || [];
+    setClases(clasesGuardadas);
+  }, []);
 
   const handleMostrarCrear = () => {
     setMostrarCrear(true);
     setMostrarUnirse(false);
-    setMensajeUnirse(null);
   };
 
   const handleMostrarUnirse = () => {
     setMostrarCrear(false);
     setMostrarUnirse(true);
-    setMensajeUnirse(null);
   };
 
-  // Función para crear una clase
   const handleCrearClase = (e) => {
     e.preventDefault();
-
-    const formData = new FormData(e.target);
     const nuevaClase = {
-      materia: formData.get("materia"),
-      nombre: formData.get("nombre"),
-      seccion: formData.get("seccion"),
-      aula: formData.get("aula"),
-      creador: formData.get("creador"),
-      codigo: Math.random().toString(36).slice(2, 8).toUpperCase(), // Código único random para unirse
+      materia: e.target.materia.value,
+      nombre: e.target.nombre.value,
+      seccion: e.target.seccion.value,
+      aula: e.target.aula.value,
+      creador: e.target.creador.value,
+      codigo: Math.random().toString(36).substring(2, 8),
     };
 
-    setClases([...clases, nuevaClase]);
+    const nuevasClases = [...clases, nuevaClase];
+    setClases(nuevasClases);
+    localStorage.setItem("clases", JSON.stringify(nuevasClases));
+
     e.target.reset();
-    setMensajeUnirse(null);
-    alert(`Clase creada con código: ${nuevaClase.codigo}`);
+    setMostrarCrear(false);
   };
 
-  // Función para unirse a una clase
   const handleUnirseClase = (e) => {
     e.preventDefault();
+    const materia = e.target.materia.value;
+    const codigo = e.target.codigo.value;
 
-    const formData = new FormData(e.target);
-    const materia = formData.get("materia");
-    const codigo = formData.get("codigo").toUpperCase();
-
-    // Buscar clase que coincida con materia y código
     const claseEncontrada = clases.find(
-      (c) => c.materia.toLowerCase() === materia.toLowerCase() && c.codigo === codigo
+      (clase) => clase.materia === materia && clase.codigo === codigo
     );
 
     if (claseEncontrada) {
-      setMensajeUnirse(`¡Te has unido a la clase "${claseEncontrada.nombre}"!`);
+      alert(`Te has unido a la clase: ${claseEncontrada.nombre}`);
     } else {
-      setMensajeUnirse("Clase no encontrada. Verifica materia y código.");
+      alert("Clase no encontrada.");
     }
 
     e.target.reset();
+    setMostrarUnirse(false);
   };
 
   return (
@@ -74,16 +72,25 @@ export default function Clases() {
         <div className="container">
           <img src="/img/logo1.jpg" alt="Logo" className="illustration" />
           <div className="botonsito">
-            <button id="btnCrearClase" className="btn btn-outline" onClick={handleMostrarCrear}>
+            <button
+              type="button"
+              id="btnCrearClase"
+              className="btn btn-outline"
+              onClick={handleMostrarCrear}
+            >
               Crear clase
             </button>
-            <button id="btnUnirseClase" className="btn btn-primary" onClick={handleMostrarUnirse}>
+            <button
+              type="button"
+              id="btnUnirseClase"
+              className="btn btn-primary"
+              onClick={handleMostrarUnirse}
+            >
               Unirse a clase
             </button>
           </div>
         </div>
 
-        {/* Formulario para crear clase */}
         {mostrarCrear && (
           <div id="crearClaseForm">
             <form id="formCrearClase" onSubmit={handleCrearClase}>
@@ -97,7 +104,6 @@ export default function Clases() {
           </div>
         )}
 
-        {/* Formulario para unirse a clase */}
         {mostrarUnirse && (
           <div id="unirseClaseForm">
             <form id="formUnirseClase" onSubmit={handleUnirseClase}>
@@ -105,36 +111,50 @@ export default function Clases() {
               <input type="text" name="codigo" placeholder="Código de clase" required />
               <button type="submit">Unirse a clase</button>
             </form>
-            {mensajeUnirse && <p style={{ marginTop: "10px" }}>{mensajeUnirse}</p>}
           </div>
         )}
 
-        {/* Contenedor de tarjetas */}
-        <div id="coursesList" style={{ marginTop: "20px" }}>
-          {clases.length === 0 ? (
-            <p>No hay clases creadas aún.</p>
-          ) : (
-            clases.map((clase, index) => (
-              <div key={index} className="tarjetaClase" style={{
+        <div
+          id="coursesList"
+          style={{
+            display: "flex",
+            gap: "1rem",
+            flexWrap: "wrap",
+            marginTop: "20px",
+          }}
+        >
+          {clases.map((clase, index) => (
+            <div
+              key={index}
+              className="card"
+              style={{
                 border: "1px solid #ccc",
-                padding: "15px",
-                marginBottom: "10px",
-                borderRadius: "6px",
-                backgroundColor: "#f9f9f9"
-              }}>
-                <h3>{clase.nombre}</h3>
-                <p><strong>Materia:</strong> {clase.materia}</p>
-                <p><strong>Sección:</strong> {clase.seccion}</p>
-                <p><strong>Aula:</strong> {clase.aula}</p>
-                <p><strong>Profesor:</strong> {clase.creador}</p>
-                <p><strong>Código de clase:</strong> {clase.codigo}</p>
-              </div>
-            ))
-          )}
+                padding: "10px",
+                borderRadius: "8px",
+                width: "200px",
+              }}
+            >
+              <h3>{clase.nombre}</h3>
+              <p>
+                <strong>Materia:</strong> {clase.materia}
+              </p>
+              <p>
+                <strong>Sección:</strong> {clase.seccion}
+              </p>
+              <p>
+                <strong>Aula:</strong> {clase.aula}
+              </p>
+              <p>
+                <strong>Profesor:</strong> {clase.creador}
+              </p>
+              <p>
+                <strong>Código:</strong> {clase.codigo}
+              </p>
+            </div>
+          ))}
         </div>
       </main>
 
-      {/* Imagen extra abajo, ejemplo banner o ilustración */}
       <div style={{ textAlign: "center", margin: "20px 0" }}>
         <img
           src="/img/banner.jpg"

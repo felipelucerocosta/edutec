@@ -21,21 +21,18 @@ header {
   position: relative;
   padding: 0 20px;
   color: #000;
-  
 }
 
 .logo {
   display: flex;
-  justify-content:center;
+  justify-content: center;
   color: #2c0e0e;
-  display: flex;
   align-items: center;
   width: 100%;
-  
+  padding: 40px;
 }
 
 .logo img {
-  display: inline-block;
   height: 65px;
   width: 70px;
   border-radius: 50%;
@@ -62,7 +59,6 @@ nav {
 }
 
 nav a {
-  display: inline-block;
   font-weight: 700;
   margin-left: 25px;
   margin-right: 25px;
@@ -82,70 +78,19 @@ nav ul {
   font-size: 20px;
 }
 
-
-
 header {
-    height: 65px;
-    background-color:rgb(126, 176, 218);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.74);
+  height: 65px;
+  background-color: rgb(126, 176, 218);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.74);
 }
 
 header h1 {
   font-size: 35px;
-  color:rgb(2, 7, 75)
+  color: rgb(2, 7, 75);
 }
-
-.logo {
-   display: flex;
-   padding: 40px;
-
-}
-    
-
-
-.nav-bar ul {
-    display: flex;
-}
-
-.nav-bar ul li a {
-    display: block;
-    color: #ffffff;
-    font-size: 19px;
-    padding: 10px 25px;
-    border-radius: 15px;
-    transition: 0.2s;
-    margin: 0 5px;
-
-}
-
-.nav-bar ul li a:hover {
-    color :rgb(71, 89, 126) ;
-    background-color: #ffffff;
-}
-
-.nav-bar ul li a.active {
-    color :rgb(255, 255, 255) ;
-    background-color: #f2f2f2;
-    
-}
-#abrir-nav,#cerrar-nav {
-    display: none;
-  }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* ======= MAIN CONTAINER ======= */
 .container {
@@ -158,7 +103,6 @@ header h1 {
 }
 
 img.illustration {
-  display: inline-block;
   height: 120px;
   width: 120px;
   border-radius: 50%;
@@ -171,7 +115,7 @@ img.illustration:hover {
 }
 
 /* ======= BUTTONS ======= */
-.buttons {
+.botonsito {
   display: flex;
   gap: 20px;
   justify-content: center;
@@ -205,15 +149,13 @@ img.illustration:hover {
 /* ======= FORMULARIOS ======= */
 #crearClaseForm,
 #unirseClaseForm {
-  display: none;
   border: 2px solid #27388588;
   padding: 20px;
   margin: 20px auto;
   max-width: 500px;
   background-color: #326fa579;
   border-radius: 10px;
-  box-shadow: 3px 3px 3px#0b8fc4;
-  
+  box-shadow: 3px 3px 3px #0b8fc4;
 }
 
 form input,
@@ -227,7 +169,7 @@ form button {
 }
 
 /* ======= TARJETAS DE CLASE ======= */
-#coursesList .course-card {
+#coursesList .card {
   border: 1px solid #ddd;
   padding: 15px;
   margin: 10px auto;
@@ -237,14 +179,9 @@ form button {
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* ======= OTROS ======= */
-#cerrar-btn {
-  display: none;
-}
-
 /* ======= RESPONSIVE ======= */
 @media (max-width: 700px) {
-  .buttons {
+  .botonsito {
     flex-direction: column;
     align-items: center;
   }
@@ -256,53 +193,52 @@ form button {
   }
 }
 
-@media (max-width:822px) {
-    .logo {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-    }
-    header {
-      width: 100%;
-      justify-content: space-between;
-    }
-    #abrir-nav,#cerrar-nav {
+@media (max-width: 822px) {
+  .logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  header {
+    width: 100%;
+    justify-content: space-between;
+  }
+  #abrir-nav,
+  #cerrar-nav {
     display: block;
+  }
+  #abrir-nav {
+    border: none;
+    background-color: transparent;
+    font-size: 25px;
+    padding-right: 20px;
+    color: #f2f2f2;
+    cursor: pointer;
+  }
+  #cerrar-nav {
+    border: none;
+    background-color: transparent;
+    color: #f2f2f2;
+    font-size: 20px;
+    cursor: pointer;
+  }
 
-    }
-    #abrir-nav {
-      border: none;
-      background-color: transparent;
-      font-size: 25px;
-      padding-right:20PX ;
-      color: #f2f2f2;
-      cursor: pointer;
-    }
-    #cerrar-nav {
-      border: none;
-      background-color: transparent;
-      color: #f2f2f2;
-      font-size: 20px;
-      cursor: pointer;
-    }
-    
-    .nav-bar {
-      display: none;
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #1C1C1C;
-      padding: 1.5rem;
-      box-shadow: 0 0 0 100vmax rgb(0, 0, 0,.5);
-    }
-    .nav-bar.active{
-      display: flex;
-    }
-    .nav-list {
-      flex-direction: column;
-      background-color: #1C1C1C;
-      text-align: end;
-
-    }
+  .nav-bar {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #1c1c1c;
+    padding: 1.5rem;
+    box-shadow: 0 0 0 100vmax rgb(0, 0, 0, 0.5);
+  }
+  .nav-bar.active {
+    display: flex;
+  }
+  .nav-list {
+    flex-direction: column;
+    background-color: #1c1c1c;
+    text-align: end;
+  }
 }
