@@ -14,7 +14,7 @@ a {
 /* ======= HEADER ======= */
 header {
   min-height: 90px;
-  background-color: #8cc9ff;
+  background-color: #234a6dab;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -68,6 +68,7 @@ nav a {
   margin-right: 25px;
   transition: all 0.4s ease;
   align-items: center;
+  text-shadow: 1px 1px 1px #232323;
 }
 
 nav a:hover {

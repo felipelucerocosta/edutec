@@ -26,7 +26,7 @@ a.nombre-logo {
 
 /* ========== HEADER ========== */
 header {
-  background-color: #84a6c4b6;
+  background-color: #234a6dab;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -63,6 +63,7 @@ nav a {
   display: flex;
   align-items: center;
   gap: 5px;
+  text-shadow: 1px 1px 1px #232323;
 }
 
 nav a:hover {

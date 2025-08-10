@@ -14,7 +14,7 @@ body {
 }
 header {
     height: 65px;
-    background-color:rgb(79, 106, 128);
+    background-color: #234a6dab;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -48,6 +48,7 @@ header h1 {
     transition: 0.2s;
     margin: 0 5px;
     text-decoration: none;
+    text-shadow: 1px 1px 1px #232323;
 
 }
 

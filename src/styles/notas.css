@@ -19,7 +19,7 @@ a {
 }
 
 header {
-  background-color: #7ea8ce;
+  background-color: #234a6dab;
   color: #000000;
   display: flex;
   align-items: center;
@@ -64,8 +64,9 @@ header {
 
 .nav-links a {
   font-weight: 600;
-  color: #000000;
+  color: #ffffff;
   transition: transform 0.3s ease;
+  text-shadow: 1px 1px 1px #232323;
 }
 
 .nav-links a:hover {
