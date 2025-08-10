@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "../styles/registro.css";
 import "boxicons/css/boxicons.min.css";
+
 export default function Registro() {
-  
   const [logoError, setLogoError] = useState(false);
+  const [usuariosAlumno, setUsuariosAlumno] = useState([]); 
+  const [usuariosProfesor, setUsuariosProfesor] = useState([]); 
+  const [usuarioLogueado, setUsuarioLogueado] = useState(null);
+
+  const [mensajeLogin, setMensajeLogin] = useState(null);
+  const [mensajeRegistro, setMensajeRegistro] = useState(null);
 
   useEffect(() => {
     const btnIniciarSesion = document.getElementById("btn__iniciar-sesion");
@@ -48,6 +54,8 @@ export default function Registro() {
         caja_trasera_register.style.display = "block";
         caja_trasera_login.style.display = "none";
       }
+      setMensajeLogin(null);
+      setMensajeRegistro(null);
     }
 
     function register(tipo) {
@@ -77,6 +85,8 @@ export default function Registro() {
         caja_trasera_login.style.display = "block";
         caja_trasera_login.style.opacity = "1";
       }
+      setMensajeLogin(null);
+      setMensajeRegistro(null);
     }
 
     btnIniciarSesion.addEventListener("click", iniciarSesion);
@@ -97,6 +107,90 @@ export default function Registro() {
       window.removeEventListener("resize", anchoPage);
     };
   }, []);
+
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    setMensajeLogin(null);
+
+    const email = e.target[0].value.trim();
+    const password = e.target[1].value.trim();
+
+    let usuario = usuariosAlumno.find(
+      (u) => u.correo.toLowerCase() === email.toLowerCase() && u.contrasena === password
+    );
+
+    let tipoUsuario = "Alumno";
+
+    if (!usuario) {
+      usuario = usuariosProfesor.find(
+        (u) => u.correo.toLowerCase() === email.toLowerCase() && u.contrasena === password
+      );
+      tipoUsuario = "Profesor";
+    }
+
+    if (usuario) {
+      setUsuarioLogueado({ ...usuario, tipo: tipoUsuario });
+      setMensajeLogin(`Bienvenido/a, ${usuario.nombre_completo} (${tipoUsuario})`);
+      e.target.reset();
+
+      // Redirigir a tablon.html
+      window.location.href = "tablon.html";
+    } else {
+      setMensajeLogin("Usuario o contraseña incorrectos.");
+    }
+  };
+
+  const handleRegistroAlumno = (e) => {
+    e.preventDefault();
+    setMensajeRegistro(null);
+
+    const formData = new FormData(e.target);
+    const nuevoAlumno = {
+      nombre_completo: formData.get("nombre_completo").trim(),
+      correo: formData.get("correo").trim(),
+      curso: formData.get("curso").trim(),
+      dni: formData.get("dni").trim(),
+      contrasena: formData.get("contrasena").trim(),
+    };
+
+    const existe = usuariosAlumno.some(
+      (u) => u.correo.toLowerCase() === nuevoAlumno.correo.toLowerCase()
+    );
+    if (existe) {
+      setMensajeRegistro("El correo ya está registrado como alumno.");
+      return;
+    }
+
+    setUsuariosAlumno([...usuariosAlumno, nuevoAlumno]);
+    setMensajeRegistro("Registro alumno exitoso. Ya podés iniciar sesión.");
+    e.target.reset();
+  };
+
+  const handleRegistroProfesor = (e) => {
+    e.preventDefault();
+    setMensajeRegistro(null);
+
+    const formData = new FormData(e.target);
+    const nuevoProfesor = {
+      nombre_completo: formData.get("nombre_completo").trim(),
+      correo: formData.get("correo").trim(),
+      materia: formData.get("materia").trim(),
+      dni: formData.get("dni").trim(),
+      contrasena: formData.get("contrasena").trim(),
+    };
+
+    const existe = usuariosProfesor.some(
+      (u) => u.correo.toLowerCase() === nuevoProfesor.correo.toLowerCase()
+    );
+    if (existe) {
+      setMensajeRegistro("El correo ya está registrado como profesor.");
+      return;
+    }
+
+    setUsuariosProfesor([...usuariosProfesor, nuevoProfesor]);
+    setMensajeRegistro("Registro profesor exitoso. Ya podés iniciar sesión.");
+    e.target.reset();
+  };
 
   return (
     <div>
@@ -132,7 +226,6 @@ export default function Registro() {
         </div>
       </header>
 
-      {/* resto del componente sin cambios */}
       <main>
         <div className="contenedor__todo">
           <div className="caja__trasera">
@@ -151,69 +244,51 @@ export default function Registro() {
           </div>
 
           <div className="contenedor__login-register">
-            <form action="#" className="formulario__login">
+            <form
+              onSubmit={handleLoginSubmit}
+              className="formulario__login"
+              style={{ display: "block" }}
+            >
               <h2>Iniciar Sesión</h2>
               <input type="email" placeholder="Correo electrónico" required />
               <input type="password" placeholder="Contraseña" required />
               <button type="submit">Entrar</button>
+              {mensajeLogin && <p style={{ marginTop: "10px" }}>{mensajeLogin}</p>}
+              {usuarioLogueado && (
+                <p style={{ marginTop: "10px", color: "green" }}>
+                  Usuario logueado: {usuarioLogueado.nombre_completo} ({usuarioLogueado.tipo})
+                </p>
+              )}
             </form>
 
             <form
-              action="http://localhost:3000/registro-alumno"
-              method="POST"
+              onSubmit={handleRegistroAlumno}
               className="formulario__register formulario__register-alumno"
+              style={{ display: "none" }}
             >
               <h2>Registro Alumno</h2>
-              <input
-                type="text"
-                name="nombre_completo"
-                placeholder="Nombre completo"
-                required
-              />
-              <input
-                type="email"
-                name="correo"
-                placeholder="Correo electrónico"
-                required
-              />
+              <input type="text" name="nombre_completo" placeholder="Nombre completo" required />
+              <input type="email" name="correo" placeholder="Correo electrónico" required />
               <input type="text" name="curso" placeholder="Curso" required />
               <input type="text" name="dni" placeholder="DNI" required />
-              <input
-                type="password"
-                name="contrasena"
-                placeholder="Contraseña"
-                required
-              />
+              <input type="password" name="contrasena" placeholder="Contraseña" required />
               <button type="submit">Registrarse</button>
+              {mensajeRegistro && <p style={{ marginTop: "10px" }}>{mensajeRegistro}</p>}
             </form>
 
             <form
-              action="http://localhost:3000/registro-profesor"
-              method="POST"
+              onSubmit={handleRegistroProfesor}
               className="formulario__register formulario__register-profesor"
+              style={{ display: "none" }}
             >
               <h2>Registro Profesor</h2>
-              <input
-                type="text"
-                name="nombre_completo"
-                placeholder="Nombre completo"
-                required
-              />
-              <input
-                type="email"
-                name="correo"
-                placeholder="Correo electrónico"
-                required
-              />
+              <input type="text" name="nombre_completo" placeholder="Nombre completo" required />
+              <input type="email" name="correo" placeholder="Correo electrónico" required />
               <input type="text" name="materia" placeholder="Materia" required />
               <input type="text" name="dni" placeholder="DNI" required />
-              <input
-                type="password"
-                name="contrasena"
-                placeholder="Contraseña"
-                required
-              />
+              <input type="password" name="contrasena" placeholder="Contraseña" required />
               <button type="submit">Registrarse</button>
+              {mensajeRegistro && <p style={{ marginTop: "10px" }}>{mensajeRegistro}</p>}
             </form>
           </div>
         </div>
@@ -222,7 +297,7 @@ export default function Registro() {
       <div className="container_mobile">
         <div className="caja_form">
           <h2>Iniciar sesión</h2>
-          <form>
+          <form onSubmit={handleLoginSubmit}>
             <div className="caja_input">
               <input type="text" placeholder="Nombre de usuario" required />
               <i className="bx bxs-user"></i>
