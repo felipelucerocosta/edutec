@@ -1,0 +1,339 @@
+/* Reset y estilos base */
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    overflow-x: hidden;
+    background-color: #EEE;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* Header y logo */
+header {
+    background-color: #234a6dab;
+    min-height: 90px;
+    display: flex;
+    justify-content: center;
+}
+
+div.logo {
+    display: flex;
+    justify-content: center;
+}
+
+.logo img {
+    height: 65px;
+    width: 70px;
+    border-radius: 50%;
+    margin-right: 15px;
+    transition: all 0.4s ease;
+}
+
+.logo img:hover { transform: scale(1.1); }
+
+a.nombre-logo {
+    font-size: 28px;
+    transition: all 0.4s ease;
+    color: #f2f2f2;
+}
+
+a.nombre-logo:hover { transform: scale(1.1); }
+
+a {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 600;
+    
+}
+
+/* Main y contenedor */
+main {
+    width: 100%;
+    margin-top: 200px;
+}
+
+.contenedor__todo {
+    width: 100%;
+    max-width: 760px;
+    margin: auto;
+    position: relative;
+}
+
+/* Caja trasera (info login/register) */
+.caja__trasera {
+    width: 100%;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background-color: #234a6dab;
+    border-radius: 10px;
+    border: solid 2px #d1d1d1;
+    text-shadow: 1px 1px 1px #232323;
+}
+
+.caja__trasera div {
+    margin: 100px 40px;
+    color: #EEE;
+    transition: all 500ms;
+    text-shadow: 1px 1px 1px #232323;
+}
+
+.caja__trasera div p,
+.caja__trasera button { margin-top: 30px; }
+
+.caja__trasera div h3 {
+    font-weight: 400;
+    font-size: 26px;
+}
+
+.caja__trasera div p {
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.caja__trasera button {
+    padding: 10px 40px;
+    border: 2px solid #EEE;
+    font-size: 14px;
+    background: transparent;
+    font-weight: 600;
+    cursor: pointer;
+    color: #EEE;
+    outline: none;
+    transition: all 300ms;
+    text-shadow: 1px 1px 1px #232323;
+}
+
+.caja__trasera button:hover {
+    background: #EEE;
+    color: rgb(87, 86, 86);
+}
+
+/* Formularios desktop */
+.contenedor__login-register {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 360px;
+    position: relative;
+    top: -185px;
+    left: 0;
+    transition: left 500ms cubic-bezier(0.175, 0.885, 0.320, 1.275);
+}
+
+.contenedor__login-register form {
+    width: 100%;
+    padding: 80px 20px;
+    background: #eee;
+    position: absolute;
+    border-radius: 20px;
+    border: solid 2.5px #d1d1d1;
+}
+
+.contenedor__login-register form h2 {
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: rgb(41, 39, 39);
+}
+
+.contenedor__login-register form input {
+    width: 90%;
+    margin-top: 20px;
+    padding: 10px;
+    border: none;
+    background: #d1d1d1;
+    font-size: 16px;
+    outline: none;
+    margin-right: 30px;
+}
+
+.contenedor__login-register form button {
+    padding: 10px 40px;
+    margin-top: 40px;
+    font-size: 14px;
+    background: #d1d1d1;
+    font-weight: 600;
+    cursor: pointer;
+    color: rgb(41, 39, 39);
+    outline: none;
+    border: none;
+    transition: all 300ms;
+}
+
+.contenedor__login-register form button:hover {
+    background-color: #466179;
+    color: #eee;
+}
+
+/* Formularios visibles */
+.formulario__login { opacity: 1; display: block; }
+.formulario__register { display: none; }
+
+/* Modo móvil oculto inicialmente (ajuste de especificidad: SIN "div") */
+.container_mobile {
+    display: none;
+}
+
+/* ===================== */
+/*        MOBILE         */
+/* ===================== */
+
+
+
+@media (max-width: 1000px) {
+  /* Ocultar versión desktop y ajustar espacios */
+  .contenedor__todo { display: none; }
+ /* Contenedor principal */
+.container_mobile {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+  /* Quitar blur en mobile */
+  .caja__trasera {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background-color: #466179;
+  }
+
+/* Tarjeta con perspectiva 3D */
+.flip-card {
+  width: 350px;
+  height: 500px;
+  perspective: 1000px;
+  margin-bottom: 10px;
+}
+
+/* Parte que rota */
+.flip-card-inner {
+  width: 100%;
+  height: 90%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+  will-change: transform;
+
+}
+
+/* Caras */
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  top: 0;
+  left: 0;
+  border-radius: 10px;
+}
+
+/* Frente = Login */
+.flip-card-front {
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Parte trasera = Registros */
+.flip-card-back {
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transform: rotateY(180deg);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Tu CSS original para estética */
+.mobile-box h1,
+.mobile-box h2 { color: #234a6dab; text-align: center; }
+.mobile-box p { text-align: center; color: #333; }
+
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 45px;
+  margin-bottom: 20px;
+}
+
+.btn-group button {
+  padding: 12px;
+  border: none;
+  background-color: #234a6dab;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.btn-group button:hover { background-color: #365066; }
+
+/* Botón Volver a Login en mobile */
+.btn-volver-login {
+  display: block;
+  margin: 25px auto 0 auto;
+  padding: 12px 32px;
+  background-color: #234a6dab;
+  color: #F2F2F2;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(70,97,121,0.08);
+  transition: background 0.3s;
+}
+.btn-volver-login:hover {
+  background-color: #234a6dab;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.formulario input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.formulario button {
+  padding: 12px;
+  background-color: #234a6dab;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.formulario button:hover { background-color: #365066; }
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  top: 0;
+  left: 0;
+}
+
+.flip-card-front {
+  transform: rotateY(0deg); /* asegúrate que no tenga rotación inicial */
+}
+
+}

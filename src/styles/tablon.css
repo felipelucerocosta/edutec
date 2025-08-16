@@ -1,0 +1,193 @@
+/* ========== ESTILOS GENERALES ========== */
+body {
+  background-color: #f0f0f0;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  box-sizing: border-box;
+}
+
+header {
+    height: 80px;
+    background-color:rgb(112, 139, 161);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header h1 {
+  font-size: 35px;
+  color:rgb(255, 255, 255);
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+header h1:hover{
+  transform: scale(1.1);
+}
+
+
+.nav-bar ul {
+    display: flex;
+    list-style: none;
+    
+}
+
+.nav-bar ul li a {
+    display: block;
+    color: #ffffff;
+    font-size: 19px;
+    padding: 10px 25px;
+    border-radius: 15px;
+    transition: 0.2s;
+    margin: 0 5px;
+    text-decoration: none;
+    display: flex;
+
+}
+
+.nav-bar ul li a:hover {
+    color :rgb(71, 89, 126) ;
+    background-color: #ffffff;
+}
+
+.nav-bar ul li a.active {
+    color :rgb(255, 255, 255) ;
+    background-color: #f2f2f2;
+}
+
+#abrir-nav,#cerrar-nav {
+  display: none;
+}
+
+
+/* ========== CONTENIDO PRINCIPAL ========== */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.main-content {
+  flex: 3;
+  background-color: #eee;
+  padding: 40px;
+  border-radius: 10px;
+  min-height: 300px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.main-content h2 {
+  margin-top: 0;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+textarea {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  width: 100%;
+  resize: vertical;
+  margin-bottom: 15px;
+}
+
+#enviarMensaje {
+  background-color: #4380b4;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#enviarMensaje:hover {
+  background-color: #326a97;
+}
+
+#mensajes {
+  margin-top: 20px;
+  border: 1px solid #c7c0c0;
+  padding: 10px;
+  background: #fafafa;
+  min-height: 100px;
+  border-radius: 6px;
+}
+
+/* ========== ADMIN INFO ========== */
+.admin-title {
+  text-align: right;
+  font-size: 14px;
+  color: #555;
+  margin-top: 15px;
+  width: 100%;
+}
+
+/* ========== FOOTER ========== */
+footer {
+  color: #8a8080;
+  font-size: 13px;
+  text-align: center;
+  padding: 40px 20px;
+  margin-top: auto;
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+@media (max-width:1000px) {
+    #abrir-nav,#cerrar-nav {
+    display: block;
+
+    }
+    .logo {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    header {
+      width: 100%;
+      justify-content: space-between;
+    }
+    #abrir-nav {
+      border: none;
+      background-color: transparent;
+      font-size: 25px;
+      padding-right:20PX ;
+      color: #f2f2f2;
+      cursor: pointer;
+    }
+    #cerrar-nav {
+      border: none;
+      background-color: transparent;
+      color: #f2f2f2;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    
+    .nav-bar {
+      display: none;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #1C1C1C;
+      padding: 1.5rem;
+      box-shadow: 0 0 0 100vmax rgb(0, 0, 0,.5);
+    }
+    .nav-bar.active{
+      display: flex;
+      z-index: 100;
+    }
+    .nav-list {
+      flex-direction: column;
+      background-color: #1C1C1C;
+      text-align: end;
+
+    }
+    
+
+  }

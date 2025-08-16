@@ -1,0 +1,262 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+    font-family: 'arial', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ;
+    box-sizing: border-box;
+}
+body {
+    background-image: url(fondo.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    
+    
+}
+
+.logo {
+      
+      display: flex;
+      justify-content: flex-start;
+      
+      
+}
+
+header {
+    display: flex;
+    height: 80px;
+    background-color:rgb(112, 139, 161);
+    align-items: center;
+    justify-content: space-between;
+    
+}
+
+header h1 {
+  font-size: 35px;
+  color:#f2f2f2;
+  transition:all 0.4s ease;
+  cursor: pointer;
+}
+header h1:hover {
+   transform: scale(1.1);
+}
+
+    
+
+
+.nav-bar ul {
+    display: flex;
+    
+}
+
+.nav-bar ul li a {
+    display: flex;
+    color: #ffffff;
+    font-size: 19px;
+    padding: 10px 25px;
+    border-radius: 15px;
+    transition: 0.2s;
+    margin: 0 5px;
+    gap: 8px;
+    
+
+}
+
+.nav-bar ul li a:hover {
+    color: rgb(71, 89, 126);
+    background-color: #ffffff;
+}
+
+.nav-bar ul li a.active {
+    color :rgb(255, 255, 255) ;
+    background-color: #f2f2f2;
+}
+
+img {
+    width: 150px;
+    border-radius: 50%;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 70px;    
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+}
+
+ .buttons {
+      display: flex; 
+      gap: 20px; 
+    }
+
+    #btnCrearClase,
+    #btnUnirseClase {
+      border: 1px solid #F2F2F2;
+      border-radius: 20px;
+      background-color: rgb(112, 139, 161);
+      padding: 10px 20px; 
+      color: #F2F2F2;
+      cursor: pointer;
+      font-size: 18px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    #btnCrearClase:hover,
+    #btnUnirseClase:hover {
+      background-color: #F2F2F2;
+      color: rgb(112, 139, 161);
+    }
+
+
+#crearClaseForm,
+    #unirseClaseForm {
+      border-radius: 10px;
+      display: flex;
+      
+      max-width: 900px;
+      margin: 40px auto;
+      background-color: rgb(112, 139, 161);
+      padding: 20px; 
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      flex-direction: column; 
+      align-items: center; 
+    }
+
+
+#formCrearClase,
+#formUnirseClase {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  gap: 15px; 
+  width: 100%; 
+}
+
+input {
+  height: 45px; 
+  border: none;
+  border-radius: 10px;
+}
+
+    
+    #crearClaseForm {
+  background: var(--card);
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(112, 139, 161, 0.15);
+  font-family: 'arial', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text);
+}
+
+#crearClaseForm form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#crearClaseForm input[type="text"] {
+  padding: 10px 14px;
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  font-size: 16px;
+  color: var(--text);
+  background: var(--bg);
+  transition: border-color 0.3s ease;
+}
+
+#crearClaseForm input[type="text"]:focus {
+  border-color: rgb(83, 102, 124);
+  outline: none;
+  background: #e8edf2;
+}
+
+#crearClaseForm button[type="submit"] {
+  background-color: var(--accent);
+  color: white;
+  font-weight: 600;
+  font-size: 17px;
+  padding: 12px 0;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(112, 139, 161, 0.4);
+  transition: background-color 0.3s ease;
+}
+
+#crearClaseForm button[type="submit"]:hover {
+  background-color: rgb(83, 102, 124);
+}
+
+
+footer {
+    color:rgb(138, 128, 128);
+    font-size: 12.5px;
+    text-align:center;
+    padding: 20px;
+    padding-top: 350px;
+
+}
+/* Ocultar en escritorio, mostrar en móvil */
+#abrir-nav,#cerrar-nav {
+  display: none;
+}
+@media (max-width:776px) {
+    .logo {
+      width: 100%;
+      display: flex;
+      
+      
+      
+    }
+    header {
+      display: flex;
+  
+    }
+    #abrir-nav,#cerrar-nav {
+    display: block;
+    }
+    #abrir-nav {
+      border: none;
+      background-color: transparent;
+      font-size: 25px;
+      padding-right:20PX ;
+      color: #f2f2f2;
+      cursor: pointer;
+    }
+    #cerrar-nav {
+      border: none;
+      background-color: transparent;
+      color: #f2f2f2;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    
+    .nav-bar {
+      display: none;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #1C1C1C;
+      padding: 1.5rem;
+      box-shadow: 0 0 0 100vmax rgb(0, 0, 0,.5);
+    }
+    .nav-bar.active{
+      display: flex;
+      height: 100vh;
+      
+    }
+    .nav-list {
+      flex-direction: column;
+      background-color: #1C1C1C;
+      text-align: end;
+
+    }
+}
