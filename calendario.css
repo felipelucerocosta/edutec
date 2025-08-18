@@ -1,0 +1,270 @@
+:root {
+  --primario: rgb(112, 139, 161);
+  --secundario: #f2f2f2;
+  --texto: #1c1c1c;
+  --borde: #dcdcdc;
+  --sombra: rgba(0, 0, 0, 0.1);
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #ffffff;
+  color: var(--texto);
+}
+
+header {
+  height: 65px;
+  background-color: rgb(79, 106, 128);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.74);
+  padding: 0 20px;
+}
+
+header h1 {
+  font-size: 35px;
+  color: rgb(2, 7, 75);
+  margin: 0;
+}
+
+/* Logo container */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo img {
+  height: 45px;
+  border-radius: 6px;
+}
+
+.nombre-logo {
+  color: #f2f2f2;
+  font-weight: bold;
+  font-size: 1.4rem;
+  text-decoration: none;
+  text-shadow: none;
+}
+
+/* Navigation inside header */
+header nav {
+  display: flex;
+  gap: 15px;
+}
+
+header nav a {
+  color: #ffffff;
+  font-size: 19px;
+  padding: 10px 15px;
+  border-radius: 15px;
+  text-decoration: none;
+  transition: background-color 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+header nav a:hover {
+  color: rgb(71, 89, 126);
+  background-color: #ffffff;
+}
+
+/* Main container */
+.contenedor {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: var(--secundario);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px var(--sombra);
+}
+
+/* Header section inside main */
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.encabezado h2 {
+  font-size: 1.8rem;
+  color: var(--primario);
+  margin: 0;
+}
+
+.encabezado button {
+  background-color: var(--primario);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.encabezado button:hover {
+  background-color: #3a5365;
+}
+
+/* Formulario para nota */
+.formulario-nota {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.formulario-nota input,
+.formulario-nota select {
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  flex: 1 1 200px;
+}
+
+.formulario-nota button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.formulario-nota button:hover {
+  background-color: #218838;
+}
+
+/* Tabla del calendario */
+table#calendario {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px var(--sombra);
+}
+
+th {
+  background-color: var(--primario);
+  color: white;
+  padding: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+td {
+  position: relative;
+  border: 1px solid var(--borde);
+  height: 100px;
+  vertical-align: top;
+  padding: 8px;
+  background-color: #fff;
+  font-size: 0.95rem;
+}
+
+/* Número de día dentro de la celda */
+.dia-num {
+  position: absolute;
+  top: 5px;
+  left: 8px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #555;
+}
+
+/* Lista de notas dentro de cada celda */
+td ul {
+  margin: 25px 0 0 0;
+  padding-left: 15px;
+  list-style-type: disc;
+  max-height: 60px;
+  overflow-y: auto;
+}
+
+td ul li {
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+  color: var(--primario);
+}
+
+/* Footer */
+footer {
+  color: #777;
+  font-size: 13px;
+  text-align: center;
+  padding: 40px 10px 20px;
+}
+
+/* Responsive: móvil */
+@media (max-width: 822px) {
+  .logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  header {
+    width: 100%;
+    justify-content: space-between;
+    padding: 0 15px;
+  }
+
+  /* Si quieres usar un botón para abrir/cerrar menú móvil, deberías agregarlo en React */
+  #abrir-nav,
+  #cerrar-nav {
+    display: block;
+    border: none;
+    background-color: transparent;
+    color: #f2f2f2;
+    font-size: 25px;
+    cursor: pointer;
+    padding-right: 20px;
+  }
+
+  /* Navegación móvil (requiere clase nav-bar y nav-list) */
+  .nav-bar {
+    display: none;
+    position: absolute;
+    top: 65px;
+    right: 0;
+    bottom: 0;
+    background-color: #1C1C1C;
+    padding: 1.5rem;
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.5);
+    flex-direction: column;
+    z-index: 100;
+  }
+
+  .nav-bar.active {
+    display: flex;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    background-color: #1C1C1C;
+    text-align: end;
+  }
+
+  header nav a {
+    padding: 12px 0;
+    font-size: 1.2rem;
+  }
+
+  table#calendario {
+    font-size: 0.85rem;
+  }
+
+  td {
+    height: 80px;
+    padding: 5px;
+  }
+}
