@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { Pool } = require('pg');
-const pool = require('./conexion_be');
+const pool = require('./conexion_be'); // Asegúrate que la ruta a tu conexión sea correcta
+const bcrypt = require('bcrypt'); // Importamos bcrypt
 
 // Registro de alumno
 router.post('/registro-alumno', async (req, res) => {
@@ -12,6 +12,7 @@ router.post('/registro-alumno', async (req, res) => {
   }
 
   try {
+    // 1. Verificar si el usuario ya existe
     const verificarQuery = `SELECT * FROM usuarios WHERE correo = $1 OR DNI = $2`;
     const verificarResult = await pool.query(verificarQuery, [correo, DNI]);
 
@@ -19,14 +20,21 @@ router.post('/registro-alumno', async (req, res) => {
       return res.send("El correo o DNI ya está registrado.");
     }
 
+    // Hasheamos la contraseña antes de guardarla
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(contrasena, saltRounds);
+
+    // Insertar en la tabla principal de usuarios
     const insertUsuario = `
-      INSERT INTO usuarios (contrasena, curso, nombre_completo, correo, DNI)
+      INSERT INTO usuarios (contrasena, nombre_completo, correo, DNI, curso)
       VALUES ($1, $2, $3, $4, $5)
       RETURNING ID_Usuario
     `;
-    const usuarioResult = await pool.query(insertUsuario, [contrasena, curso, nombre_completo, correo, DNI]);
+    const usuarioResult = await pool.query(insertUsuario, [hashedPassword, nombre_completo, correo, DNI, curso]);
     const ID_Usuario = usuarioResult.rows[0].id_usuario;
 
+    // --- CORRECCIÓN AQUÍ ---
+    // Ahora también insertamos la contraseña hasheada en la tabla "alumno"
     const [nombre, ...resto] = nombre_completo.split(' ');
     const apellido = resto.join(' ');
 
@@ -34,15 +42,16 @@ router.post('/registro-alumno', async (req, res) => {
     const ID_Curso = cursoResult.rows.length > 0 ? cursoResult.rows[0].id_curso : null;
 
     const insertAlumno = `
-      INSERT INTO alumno (DNI, nombre, apellido, ID_Curso, ID_Usuario, correo)
-      VALUES ($1, $2, $3, $4, $5, $6)
+      INSERT INTO alumno (DNI, nombre_completo, apellido, ID_Curso, ID_Usuario, correo, contrasena)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
     `;
-    await pool.query(insertAlumno, [DNI, nombre, apellido, ID_Curso, ID_Usuario, correo]);
+    // Se añade hashedPassword como el séptimo parámetro
+    await pool.query(insertAlumno, [DNI, nombre, apellido, ID_Curso, ID_Usuario, correo, hashedPassword]);
 
     res.send("¡Alumno registrado exitosamente!");
 
   } catch (err) {
-    console.error("Error:", err);
+    console.error("Error en registro de alumno:", err);
     res.status(500).send("Error interno del servidor.");
   }
 });
@@ -56,6 +65,7 @@ router.post('/registro-profesor', async (req, res) => {
   }
 
   try {
+    // 1. Verificar si el usuario ya existe
     const verificarQuery = `SELECT * FROM usuarios WHERE correo = $1 OR DNI = $2`;
     const verificarResult = await pool.query(verificarQuery, [correo, DNI]);
 
@@ -63,24 +73,29 @@ router.post('/registro-profesor', async (req, res) => {
       return res.send("El correo o DNI ya está registrado.");
     }
 
+    // Hasheamos la contraseña antes de guardarla
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(contrasena, saltRounds);
+
     const insertUsuario = `
-      INSERT INTO usuarios (contrasena, usuario, nombre_completo, correo, DNI)
-      VALUES ($1, $2, $3, $4, $5)
+      INSERT INTO usuarios (contrasena, usuario, nombre_completo, correo, DNI, curso)
+      VALUES ($1, $2, $3, $4, $5, NULL)
       RETURNING ID_Usuario
     `;
-    const usuarioResult = await pool.query(insertUsuario, [contrasena, correo, nombre_completo, correo, DNI]);
+    const usuarioResult = await pool.query(insertUsuario, [hashedPassword, correo, nombre_completo, correo, DNI]);
     const ID_Usuario = usuarioResult.rows[0].id_usuario;
 
+    // Insertar en la tabla específica de profesores
     const insertProfesor = `
       INSERT INTO profesor (ID_Usuario, correo, DNI, nombre_completo, materia, contrasena)
       VALUES ($1, $2, $3, $4, $5, $6)
     `;
-    await pool.query(insertProfesor, [ID_Usuario, correo, DNI, nombre_completo, materia, contrasena]);
+    await pool.query(insertProfesor, [ID_Usuario, correo, DNI, nombre_completo, materia, hashedPassword]);
 
     res.send("¡Profesor registrado exitosamente!");
 
   } catch (err) {
-    console.error("Error:", err);
+    console.error("Error en registro de profesor:", err);
     res.status(500).send("Error interno del servidor.");
   }
 });

@@ -1,14 +1,46 @@
 import React, { useState, useEffect } from "react";
 import "../styles/calendario.css";
-import "boxicons/css/boxicons.min.css";
+
+// Función de ejemplo para comunicarse con la API
+const apiFetch = async (url, options = {}) => {
+  try {
+    const response = await fetch(`http://localhost:3001/api${url}`, options);
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error en la petición');
+    }
+    // Si la respuesta no tiene contenido (ej. GET exitoso sin notas)
+    const text = await response.text();
+    return text ? JSON.parse(text) : {};
+  } catch (error) {
+    console.error('Error en la petición a la API:', error);
+    // Devolvemos un objeto de error para poder manejarlo en el componente
+    return { error: true, message: error.message };
+  }
+};
+
 
 export default function Calendario() {
   const [mes, setMes] = useState(new Date().getMonth());
   const [anio, setAnio] = useState(new Date().getFullYear());
-  const [notas, setNotas] = useState([]);
-  const [nota, setNota] = useState("");
-  const [dia, setDia] = useState("");
-  const [columna, setColumna] = useState("");
+  const [notas, setNotas] = useState([]); // Almacenará las notas de la BD
+  
+  // Estado para el formulario
+  const [textoNota, setTextoNota] = useState("");
+  const [diaNota, setDiaNota] = useState("");
+
+  // --- FUNCIÓN PARA OBTENER NOTAS ---
+  const fetchNotas = async () => {
+    const data = await apiFetch('/calendario/notas');
+    if (data && !data.error) {
+      setNotas(data);
+    }
+  };
+
+  // --- USEEFFECT PARA CARGAR NOTAS AL INICIO ---
+  useEffect(() => {
+    fetchNotas();
+  }, []); // El array vacío asegura que se ejecute solo una vez al montar el componente
 
   const cambiarMes = (valor) => {
     let nuevoMes = mes + valor;
@@ -26,11 +58,35 @@ export default function Calendario() {
     setAnio(nuevoAnio);
   };
 
-  const agregarNota = () => {
-    setNotas([...notas, { texto: nota, dia, columna }]);
-    setNota("");
-    setDia("");
-    setColumna("");
+  // --- FUNCIÓN PARA AGREGAR NOTA (AHORA ASÍNCRONA) ---
+  const agregarNota = async (e) => {
+    e.preventDefault();
+    if (!textoNota || !diaNota) {
+      alert("Por favor, complete todos los campos.");
+      return;
+    }
+
+    const fecha_evento = `${anio}-${String(mes + 1).padStart(2, '0')}-${String(diaNota).padStart(2, '0')}`;
+
+    const result = await apiFetch('/calendario/notas', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        titulo: textoNota,
+        descripcion: "", // Puedes añadir un campo de descripción si quieres
+        fecha_evento: fecha_evento
+      })
+    });
+
+    if (result && !result.error) {
+      alert(result.message);
+      // Limpiar formulario y recargar notas
+      setTextoNota("");
+      setDiaNota("");
+      fetchNotas(); 
+    } else {
+      alert(result.message || "Error al guardar la nota.");
+    }
   };
 
   const generarCalendario = () => {
@@ -43,15 +99,22 @@ export default function Calendario() {
       let semana = [];
       for (let col = 0; col < 7; col++) {
         if ((fila === 0 && col < primerDia) || diaActual > diasEnMes) {
-          semana.push("");
+          semana.push({ numero: "", notas: [] });
         } else {
-          semana.push(diaActual);
+          // Filtrar notas para el día actual
+          const notasDelDia = notas.filter(n => {
+            // El +1 es porque en JS los meses van de 0-11 y en la BD de 1-12
+            const fechaNota = new Date(n.fecha_evento);
+            return fechaNota.getUTCDate() === diaActual &&
+                   fechaNota.getUTCMonth() === mes &&
+                   fechaNota.getUTCFullYear() === anio;
+          });
+          semana.push({ numero: diaActual, notas: notasDelDia });
           diaActual++;
         }
       }
       calendario.push(semana);
     }
-
     return calendario;
   };
 
@@ -59,7 +122,6 @@ export default function Calendario() {
     new Date(anio, mes)
   );
 
-  // ✅ Ahora sí usamos useEffect para actualizar el título de la pestaña
   useEffect(() => {
     document.title = `Calendario - ${nombreMes} ${anio}`;
   }, [nombreMes, anio]);
@@ -68,12 +130,11 @@ export default function Calendario() {
     <div>
       <header>
         <div className="logo">
-          <img src="../img/logo1.jpg" alt="Logo de la compañía" />
+          <img src="/img/logo1.jpg" alt="Logo de la compañía" />
           <a href="/" className="nombre-logo">EDUTECHUB</a>
         </div>
-
         <nav>
-          <a href="/clases.html"><i className="bx bxs-user"></i> Registrarse</a>
+          <a href="/clases.html"><i className="bx bxs-user"></i> Clases</a>
           <a href="/tablon.html"><i className="bx bx-table"></i> Tablón</a>
           <a href="/notas.html"><i className="bx bxs-spreadsheet"></i> Notas</a>
         </nav>
@@ -86,18 +147,12 @@ export default function Calendario() {
           <button onClick={() => cambiarMes(1)} aria-label="Mes siguiente">→</button>
         </section>
 
-        <form
-          className="formulario-nota"
-          onSubmit={(e) => {
-            e.preventDefault();
-            agregarNota();
-          }}
-        >
+        <form className="formulario-nota" onSubmit={agregarNota}>
           <input
             type="text"
             placeholder="Escribí tu nota..."
-            value={nota}
-            onChange={(e) => setNota(e.target.value)}
+            value={textoNota}
+            onChange={(e) => setTextoNota(e.target.value)}
             required
           />
           <input
@@ -105,51 +160,29 @@ export default function Calendario() {
             placeholder="Día (1-31)"
             min="1"
             max="31"
-            value={dia}
-            onChange={(e) => setDia(e.target.value)}
+            value={diaNota}
+            onChange={(e) => setDiaNota(e.target.value)}
             required
           />
-          <select
-            value={columna}
-            onChange={(e) => setColumna(e.target.value)}
-            required
-          >
-            <option value="" disabled>Día de la semana</option>
-            <option value="0">Domingo</option>
-            <option value="1">Lunes</option>
-            <option value="2">Martes</option>
-            <option value="3">Miércoles</option>
-            <option value="4">Jueves</option>
-            <option value="5">Viernes</option>
-            <option value="6">Sábado</option>
-          </select>
           <button type="submit">Agregar nota</button>
         </form>
 
         <table id="calendario">
           <thead>
             <tr>
-              <th>Dom</th>
-              <th>Lun</th>
-              <th>Mar</th>
-              <th>Mié</th>
-              <th>Jue</th>
-              <th>Vie</th>
-              <th>Sáb</th>
+              <th>Dom</th><th>Lun</th><th>Mar</th><th>Mié</th><th>Jue</th><th>Vie</th><th>Sáb</th>
             </tr>
           </thead>
           <tbody>
             {generarCalendario().map((semana, i) => (
               <tr key={i}>
-                {semana.map((diaNum, j) => (
+                {semana.map((dia, j) => (
                   <td key={j}>
-                    {diaNum}
+                    {dia.numero}
                     <ul>
-                      {notas
-                        .filter(n => Number(n.dia) === diaNum && Number(n.columna) === j)
-                        .map((n, idx) => (
-                          <li key={idx}>{n.texto}</li>
-                        ))}
+                      {dia.notas.map((n) => (
+                        <li key={n.id}>{n.titulo}</li>
+                      ))}
                     </ul>
                   </td>
                 ))}

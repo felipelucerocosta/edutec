@@ -39,8 +39,6 @@ export default function Tablon() {
     return () => clearInterval(intervalo);
   }, []);
 
-
-  
   return (
     <div>
       <header>

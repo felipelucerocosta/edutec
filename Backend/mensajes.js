@@ -1,7 +1,7 @@
 // archivo: routes/mensajes.js
 const express = require('express');
 const router = express.Router();
-const pool = require('../JS/conexion_be');
+const pool = require('./conexion_be.js');
 
 // Clase controladora
 class MensajeController {
